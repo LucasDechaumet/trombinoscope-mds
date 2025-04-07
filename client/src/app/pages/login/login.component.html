@@ -1,0 +1,30 @@
+<div class="parent-container">
+  <div class="information-container">
+    <p-iconfield>
+      <p-inputicon styleClass="pi pi-user" />
+      <input
+        type="email"
+        pInputText
+        placeholder="Email"
+        [(ngModel)]="loginForm.email"
+      />
+    </p-iconfield>
+    <p-iconfield>
+      <p-inputicon styleClass="pi pi-key" />
+      <input
+        type="password"
+        pInputText
+        placeholder="Mot de Passe"
+        [(ngModel)]="loginForm.password"
+      />
+    </p-iconfield>
+    <p-button
+      label="Connexion"
+      icon="pi pi-sign-in"
+      [loading]="loading"
+      (onClick)="login()"
+    />
+  </div>
+</div>
+
+<p-toast />

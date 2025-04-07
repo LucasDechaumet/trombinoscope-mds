@@ -1,0 +1,39 @@
+<p-toast></p-toast>
+
+<div class="sidebar">
+  <p-panelMenu [model]="classes"></p-panelMenu>
+  <p-button
+    [style]="{ 'margin-bottom': '10px' }"
+    class="add-class-button"
+    label="Ajouter une classe"
+    icon="pi pi-plus"
+    iconPos="left"
+    (click)="showDialog()"
+  ></p-button>
+</div>
+
+<p-dialog
+  header="Ajouter une classe"
+  [modal]="true"
+  [(visible)]="isVisible"
+  [style]="{ width: '30rem' }"
+>
+  <div class="info-container">
+    <p-select
+      [options]="branches"
+      [(ngModel)]="addClasseForm.branch"
+      optionLabel="name"
+      placeholder="Choisissez une filière"
+    />
+    <input
+      type="text"
+      pInputText
+      placeholder="Nom"
+      [(ngModel)]="addClasseForm.name"
+    />
+  </div>
+  <div class="button-container">
+    <p-button label="Cancel" severity="secondary" (click)="cancel()" />
+    <p-button label="Save" (click)="save()" />
+  </div>
+</p-dialog>

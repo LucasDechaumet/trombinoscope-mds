@@ -1,0 +1,154 @@
+<p-toast />
+
+<div class="parent-container">
+  <div class="toolbar">
+    <h1 style="color: var(--p-primary-color)">
+      {{ classroom?.toLocaleUpperCase() }}
+    </h1>
+    <p-iconfield>
+      <p-inputicon styleClass="pi pi-search" />
+      <input
+        type="text"
+        pInputText
+        placeholder="Search"
+        [(ngModel)]="keyword"
+        (ngModelChange)="onKeywordChange()"
+      />
+    </p-iconfield>
+
+    <input
+      type="file"
+      #singleFileInput
+      (change)="onSingleFileSelected($event)"
+      accept="image/*"
+      multiple
+      style="display: none"
+    />
+
+    <input
+      type="file"
+      #folderFileInput
+      (change)="onFolderSelected($event)"
+      accept="image/*"
+      multiple
+      webkitdirectory
+      style="display: none"
+    />
+
+    <p-splitbutton
+      label="Ajouter un étudiant"
+      (onClick)="openSingleFileInput()"
+      [model]="items"
+    />
+
+    <p-button
+      label="Générer un pdf"
+      icon="pi pi-file-pdf"
+      iconPos="left"
+      (click)="generatePdf()"
+    ></p-button>
+
+    <p-button
+      icon="pi pi-sign-out"
+      label="Se déconnecter"
+      (onClick)="logout()"
+    />
+  </div>
+
+  <div class="trombinoscope">
+    @for (student of students; track student) {
+    <div class="picture-item" (click)="openDrawerDetails(student)">
+      <img [src]="student.photo_url" (error)="onImageError($event)" />
+      <div class="student-name">
+        {{ student.firstname }} {{ student.lastname }}
+      </div>
+    </div>
+    }
+  </div>
+</div>
+
+<p-drawer
+  [header]="headerTitle"
+  [(visible)]="isSidebarVisible"
+  position="right"
+  (onHide)="closeDrawer()"
+  [closeOnEscape]="false"
+>
+  <div class="info">
+    <p-iconfield>
+      <p-inputicon styleClass="pi pi-user" />
+      <input
+        type="text"
+        pInputText
+        placeholder="Nom"
+        [(ngModel)]="studentDetailsForm.lastname"
+      />
+    </p-iconfield>
+
+    <p-iconfield>
+      <p-inputicon styleClass="pi pi-user" />
+      <input
+        type="text"
+        pInputText
+        placeholder="Prénom"
+        [(ngModel)]="studentDetailsForm.firstname"
+      />
+    </p-iconfield>
+
+    <p-datepicker
+      dateFormat="dd-mm-yy"
+      [iconDisplay]="'input'"
+      [showIcon]="true"
+      [(ngModel)]="studentDetailsForm.birthdate"
+      placeholder="Date de naissance"
+    />
+
+    <p-iconfield>
+      <p-inputicon styleClass="pi pi-phone" />
+      <input
+        type="text"
+        pInputText
+        placeholder="Téléphone"
+        [(ngModel)]="studentDetailsForm.phone"
+      />
+    </p-iconfield>
+
+    <p-iconfield>
+      <p-inputicon styleClass="pi pi-map-marker" />
+      <input
+        type="text"
+        pInputText
+        placeholder="Adresse"
+        [(ngModel)]="studentDetailsForm.address"
+      />
+    </p-iconfield>
+
+    <div class="picture-container">
+      <div class="picture-item">
+        <img
+          [src]="base64Preview || studentDetailsForm.photo_url"
+          (error)="onImageError($event)"
+        />
+      </div>
+    </div>
+
+    <div class="save-button">
+      <p-button
+        size="small"
+        label="Enregistrer"
+        icon="pi pi-save"
+        iconPos="left"
+        severity="success"
+        (click)="onSaveStudent()"
+      ></p-button>
+      <p-button
+        size="small"
+        label="Supprimer"
+        icon="pi pi-trash"
+        iconPos="left"
+        severity="danger"
+        (click)="onDeleteStudent()"
+      ></p-button>
+    </div>
+  </div>
+</p-drawer>
